@@ -7,11 +7,11 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 # ===== CONFIG =====
-COOLDOWN_SECONDS = 1.0
+COOLDOWN_SECONDS = 0.3
 SHOW_PREVIEW = True
 
 SERIAL_PORT = "/dev/cu.usbserial-1440"
-SERIAL_BAUD = 9600
+SERIAL_BAUD = 115200
 ARDUINO_BOOT_DELAY = 2.0
 # ==================
 
@@ -100,7 +100,7 @@ def main():
     tk.Button(root, text="Send", command=submit).pack(pady=(0, 8))
 
     # ----- State for hand detection -----
-    state = {"prev": None, "last_trigger": 0.0}
+    state = {"prev": None, "last_open": 0.0, "last_close": 0.0}
 
     def update_frame():
         ok, frame = cap.read()
@@ -123,27 +123,29 @@ def main():
                 (0, 255, 0) if current_state == "open" else (0, 0, 255), 3,
             )
 
+        # Independent cooldowns per direction so a fast O->C->O sequence isn't blocked
         now = time.time()
         if (current_state is not None and state["prev"] is not None
-                and current_state != state["prev"]
-                and now - state["last_trigger"] > COOLDOWN_SECONDS):
-            if state["prev"] == "closed" and current_state == "open":
+                and current_state != state["prev"]):
+            if (state["prev"] == "closed" and current_state == "open"
+                    and now - state["last_open"] > COOLDOWN_SECONDS):
                 send_claw(arduino, True)
                 print("Triggered: open")
-            elif state["prev"] == "open" and current_state == "closed":
+                state["last_open"] = now
+            elif (state["prev"] == "open" and current_state == "closed"
+                    and now - state["last_close"] > COOLDOWN_SECONDS):
                 send_claw(arduino, False)
                 print("Triggered: close")
-            state["last_trigger"] = now
+                state["last_close"] = now
 
         if current_state is not None:
             state["prev"] = current_state
 
-        # Display the frame in the Tk label
         if SHOW_PREVIEW:
             display = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             img = Image.fromarray(display)
             imgtk = ImageTk.PhotoImage(image=img)
-            video_label.imgtk = imgtk  # prevent garbage collection
+            video_label.imgtk = imgtk
             video_label.configure(image=imgtk)
 
         root.after(15, update_frame)
