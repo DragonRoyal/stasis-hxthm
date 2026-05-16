@@ -1,30 +1,49 @@
+/*
+    O              -> open claw
+    C              -> close claw
+    P <degA> <degB> -> move base (A) to degA and pivot (B) to degB, absolute, 0-180
+*/
+#include <AccelStepper.h>
 #include <Servo.h>
-#include <Stepper.h>
 
 // ===== PIN CONFIG =====
-const int SERVO_PIN = 3;
-
-Stepper stepperA(2048, 4, 6, 5, 7);
-Stepper stepperB(2048, 8, 10, 9, 11);
-
-Servo claw;
+const uint8_t BASE_IN1 = 4;
+const uint8_t BASE_IN2 = 5;
+const uint8_t BASE_IN3 = 6;
+const uint8_t BASE_IN4 = 7;
+const uint8_t PIVOT_IN1 = 9;
+const uint8_t PIVOT_IN2 = 10;
+const uint8_t PIVOT_IN3 = 11;
+const uint8_t PIVOT_IN4 = 12;
+const uint8_t SERVO_PIN = 3;
 
 // ===== MOTION CONFIG =====
-const int STEPS_PER_REV = 2048;
+const long  STEPS_PER_REV     = 4096L;
+const float STEPS_PER_DEGREE  = STEPS_PER_REV / 360.0f;
+const float BASE_MAX_SPEED  = 520.0;
+const float BASE_ACCEL      = 180.0;
+const float PIVOT_MAX_SPEED = 360.0;
+const float PIVOT_ACCEL     = 120.0;
 const int MAX_ANGLE = 180;
-const int STEPPER_RPM = 12;
+const int CLAW_OPEN_ANGLE   = 25;
+const int CLAW_CLOSED_ANGLE = 85;
 
-const int CLAW_OPEN_ANGLE  = 120;
-const int CLAW_CLOSED_ANGLE = 0;
+AccelStepper baseStepper(AccelStepper::HALF4WIRE, BASE_IN1, BASE_IN3, BASE_IN2, BASE_IN4);
+AccelStepper pivotStepper(AccelStepper::HALF4WIRE, PIVOT_IN1, PIVOT_IN3, PIVOT_IN2, PIVOT_IN4);
+Servo claw;
 
 // ===== STATE =====
-int posA = 0;
-int posB = 0;
+int  posA = 0;
+int  posB = 0;
 bool clawOpen = false;
+bool servoAttached = false;
+char line[48];
+uint8_t lineLength = 0;
 
 // ===== HELPERS =====
-int angleToSteps(int deltaDeg) {
-  return (long)deltaDeg * STEPS_PER_REV / 360;
+long degToSteps(long degrees) {
+  if (degrees >= 0) return (long)(degrees * STEPS_PER_DEGREE + 0.5f);
+  return (long)(degrees * STEPS_PER_DEGREE - 0.5f);
 }
 
 int clampAngle(int deg) {
@@ -33,86 +52,124 @@ int clampAngle(int deg) {
   return deg;
 }
 
+bool steppersRunning() {
+  return baseStepper.distanceToGo() != 0 || pivotStepper.distanceToGo() != 0;
+}
+
+void detachServoForStepping() {
+  if (servoAttached) {
+    claw.detach();
+    servoAttached = false;
+  }
+}
+
+void reattachServo() {
+  if (!servoAttached) {
+    claw.attach(SERVO_PIN);
+    claw.write(clawOpen ? CLAW_OPEN_ANGLE : CLAW_CLOSED_ANGLE);
+    servoAttached = true;
+    delay(50);  // give the servo a moment to settle before stepper run() resumes
+  }
+}
+
 void moveBothTo(int targetA, int targetB) {
   targetA = clampAngle(targetA);
   targetB = clampAngle(targetB);
 
-  int deltaA = targetA - posA;
-  int deltaB = targetB - posB;
+  detachServoForStepping();
 
-  // Move A first, then B. Both are blocking; see note below if you want them simultaneous.
-  if (deltaA != 0) {
-    stepperA.step(angleToSteps(deltaA));
-    posA = targetA;
-  }
-  if (deltaB != 0) {
-    stepperB.step(angleToSteps(deltaB));
-    posB = targetB;
-  }
+  baseStepper.moveTo(degToSteps(targetA));
+  pivotStepper.moveTo(degToSteps(targetB));
+  posA = targetA;
+  posB = targetB;
 
-  Serial.print("OK P ");
-  Serial.print(posA); Serial.print(" ");
+  Serial.print(F("OK P "));
+  Serial.print(posA);
+  Serial.print(F(" "));
   Serial.println(posB);
 }
 
 void setClaw(bool open) {
-  if (open == clawOpen) {
-    Serial.println("OK CLAW nochange");
+  if (open == clawOpen && servoAttached) {
+    Serial.println(F("OK CLAW nochange"));
     return;
   }
+
+  reattachServo();
+
   claw.write(open ? CLAW_OPEN_ANGLE : CLAW_CLOSED_ANGLE);
   clawOpen = open;
-  Serial.print("OK CLAW "); Serial.println(open ? "open" : "closed");
+
+  Serial.print(F("OK CLAW "));
+  Serial.println(open ? F("open") : F("closed"));
 }
 
-// ===== SERIAL DECODING =====
-void handleLine(String line) {
-  line.trim();
-  if (line.length() == 0) return;
+void handleLine(char *cmd) {
+  while (*cmd == ' ' || *cmd == '\t') cmd++;
+  if (*cmd == '\0') return;
 
-  char first = line.charAt(0);
+  char first = cmd[0];
 
-  if (first == 'O') { setClaw(true);  return; }
-  if (first == 'C') { setClaw(false); return; }
+  if (first == 'O' || first == 'o') { setClaw(true);  return; }
+  if (first == 'C' || first == 'c') { setClaw(false); return; }
 
-  if (first == 'P') {
-    // Expect "P <degA> <degB>"
-    int sp1 = line.indexOf(' ');
-    int sp2 = line.indexOf(' ', sp1 + 1);
-    if (sp1 < 0 || sp2 < 0) { Serial.println("ERR format"); return; }
-    int degA = line.substring(sp1 + 1, sp2).toInt();
-    int degB = line.substring(sp2 + 1).toInt();
-    moveBothTo(degA, degB);
+  if (first == 'P' || first == 'p') {
+    int degA = 0, degB = 0;
+    if (sscanf(cmd, " %*c %d %d", &degA, &degB) == 2) {
+      moveBothTo(degA, degB);
+      return;
+    }
+    Serial.println(F("ERR format"));
     return;
   }
 
-  Serial.print("ERR unknown: "); Serial.println(line);
+  Serial.print(F("ERR unknown: "));
+  Serial.println(cmd);
+}
+
+void readSerialLine() {
+  while (Serial.available() > 0) {
+    char c = (char)Serial.read();
+    if (c == '\r' || c == '\n') {
+      if (lineLength > 0) {
+        line[lineLength] = '\0';
+        handleLine(line);
+        lineLength = 0;
+      }
+      return;
+    }
+    if (c >= 32 && c <= 126 && lineLength < sizeof(line) - 1) {
+      line[lineLength++] = c;
+    }
+  }
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  while (!Serial) { ; }
+
+  baseStepper.setMaxSpeed(BASE_MAX_SPEED);
+  baseStepper.setAcceleration(BASE_ACCEL);
+  pivotStepper.setMaxSpeed(PIVOT_MAX_SPEED);
+  pivotStepper.setAcceleration(PIVOT_ACCEL);
 
   claw.attach(SERVO_PIN);
   claw.write(CLAW_CLOSED_ANGLE);
+  servoAttached = true;
 
-  stepperA.setSpeed(STEPPER_RPM);
-  stepperB.setSpeed(STEPPER_RPM);
-
-  Serial.println("READY");
+  Serial.println(F("READY"));
 }
 
 void loop() {
-  static String buf;
-  while (Serial.available()) {
-    char c = Serial.read();
-    if (c == '\n' || c == '\r') {
-      if (buf.length() > 0) {
-        handleLine(buf);
-        buf = "";
-      }
-    } else {
-      buf += c;
-      if (buf.length() > 64) buf = "";
-    }
+  readSerialLine();
+  baseStepper.run();
+  pivotStepper.run();
+
+  // Once both steppers stop, reattach the servo automatically
+  static bool prevRunning = false;
+  bool running = steppersRunning();
+  if (prevRunning && !running) {
+    reattachServo();
   }
+  prevRunning = running;
 }
