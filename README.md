@@ -1,4 +1,4 @@
-# stasis-hxthm
+# 3D Cursor Robotic Arm
 
 A robotic arm which is controlled by a spherical dome covered with barcodes, by scanning different barcodes inside the dome with a barcode scanner the robotic arm can move to different points in a 3d spherical shape. That same ability to control a robotic arm in a enclosed 3d space can be used in other applications such as a 3D mouse for cad, or even helping older people with wrist shakiness to autonomously pick and control objects
 
