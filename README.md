@@ -6,7 +6,6 @@ A robotic arm controlled by a **barcode-scanned spherical dome** (“3D cursor�
 - Video/demo: https://www.youtube.com/watch?v=vmy95ypN5ZI
 
 ## What this is
-A small, lightweight arm intended for quick iteration during a 4‑day sprint:
 - **3D‑printed structure** (links, brackets, mounts)
 - **SG90 micro servo** for a light-duty joint / end-effector motion
 - **Larger servo** (MG996R-class) for higher-torque joint motion
@@ -58,7 +57,7 @@ Wiring / electronics photo (preview):
 <img src="https://cdn.hackclub.com/019e39be-f5b6-799e-b6e0-9c5d24bdb92a/img_7741.jpeg" alt="Electronics photo" width="420" />
 
 ## Firmware / Control
-
+Hand detection with opencv, it can detect joints and observe open/close positions
 Firmware / control notes (preview):
 
 <img src="https://cdn.hackclub.com/019e39c8-6bf0-71b5-a9b2-512f90c365fa/img_7751.jpeg" alt="Firmware photo 1" width="420" />
