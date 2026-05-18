@@ -43,22 +43,24 @@ A small, lightweight arm intended for quick iteration during a 4‑day sprint:
 
 Build photos (preview):
 
-![Arm build photo 1](https://cdn.hackclub.com/019e39be-f8bb-73e1-bd95-b19ef0ed9d60/img_7740.jpeg)
+<img src="https://cdn.hackclub.com/019e39be-f8bb-73e1-bd95-b19ef0ed9d60/img_7740.jpeg" alt="Arm build photo 1" width="420" />
 
-![Arm build photo 2](https://cdn.hackclub.com/019e39be-fbeb-781c-8327-cb57865b881d/img_7742.jpeg)
+<img src="https://cdn.hackclub.com/019e39be-fbeb-781c-8327-cb57865b881d/img_7742.jpeg" alt="Arm build photo 2" width="420" />
 
 ## CAD
-![CAD Photo](https://cdn.hackclub.com/019e39d6-7b43-7dc2-86f7-af6b988df20b/image.png)
+
+<img src="https://cdn.hackclub.com/019e39d6-7b43-7dc2-86f7-af6b988df20b/image.png" alt="CAD Photo" width="420" />
+
 ## Electronics
 
 Wiring / electronics photo (preview):
 
-![Electronics photo](https://cdn.hackclub.com/019e39be-f5b6-799e-b6e0-9c5d24bdb92a/img_7741.jpeg)
+<img src="https://cdn.hackclub.com/019e39be-f5b6-799e-b6e0-9c5d24bdb92a/img_7741.jpeg" alt="Electronics photo" width="420" />
 
 ## Firmware / Control
 
 Firmware / control notes (preview):
 
-![Firmware photo 1](https://cdn.hackclub.com/019e39c8-6bf0-71b5-a9b2-512f90c365fa/img_7751.jpeg)
+<img src="https://cdn.hackclub.com/019e39c8-6bf0-71b5-a9b2-512f90c365fa/img_7751.jpeg" alt="Firmware photo 1" width="420" />
 
-![Firmware photo 2](https://cdn.hackclub.com/019e39c8-6e88-7f0c-953f-dc29c5c4e641/img_7752.jpeg)
+<img src="https://cdn.hackclub.com/019e39c8-6e88-7f0c-953f-dc29c5c4e641/img_7752.jpeg" alt="Firmware photo 2" width="420" />
