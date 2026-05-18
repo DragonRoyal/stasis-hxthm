@@ -1,6 +1,6 @@
 # 3D Cursor Robotic Arm
 
-A robotic arm which is controlled by a spherical dome covered with barcodes, by scanning different barcodes inside the dome with a barcode scanner the robotic arm can move to different points in a 3d spherical shape. That same ability to control a robotic arm in a enclosed 3d space can be used in other applications such as a 3D mouse for cad, or even helping older people with wrist shakiness to autonomously pick and control objects
+A robotic arm controlled by a **barcode-scanned spherical dome** (“3D cursor”). By scanning different barcodes inside the dome with a barcode scanner, the arm moves to different points / presets.
 
 ## Demo
 - Video/demo: https://www.youtube.com/watch?v=vmy95ypN5ZI
@@ -9,59 +9,58 @@ A robotic arm which is controlled by a spherical dome covered with barcodes, by 
 A small, lightweight arm intended for quick iteration during a 4‑day sprint:
 - **3D‑printed structure** (links, brackets, mounts)
 - **SG90 micro servo** for a light-duty joint / end-effector motion
-- **Larger servo** for higher-torque joint motion
-- **Stepper motor** for a base axis or positioning stage
+- **Larger servo** (MG996R-class) for higher-torque joint motion
+- **28BYJ-48 5V stepper motor** for the base axis / positioning
 - **Arduino Nano** as the main controller
 
-> If you have a specific arm name (e.g., “Stasis Arm v1”) or the number of axes/DOF, add it here.
-
 ## Bill of Materials (BOM)
-_This list is intentionally hackathon-friendly; exact specs can be filled in later._
 
-### 3D-printed parts (PLA/PETG recommended)
-- Arm links (upper/lower)
-- Servo brackets / mounts
-- Stepper mount
-- Base plate
-- End-effector mount (gripper mount or tool plate)
-- Cable guides / strain relief
-- Spacers / bushings (as needed)
-
-### Electronics
-- 1× **Arduino Nano**
-- 1× **SG90 micro servo**
-- 1× **Larger servo** (e.g., MG996R-class or equivalent)
-- 1× **Stepper motor** (e.g., NEMA 17-class or equivalent)
-- 1× Stepper driver (A4988 / DRV8825 / etc.)
-- Power supply breakout boards (as used in the build)
-- 9V batteries (as used in the build)
-- Jumper wires (male/male, male/female)
-- Breadboard or perfboard (optional)
-- Assorted connectors (Dupont, screw terminals, etc.)
-
-### Hardware / fasteners
-- Assorted M3 screws + nuts (primary)
-- Heat-set inserts (optional but recommended)
-- Zip ties / Velcro for cable management
-
-### Tools
-- 3D printer
-- Soldering iron + solder
-- Hex drivers / screwdrivers
-
+| Category | Item | Qty | Notes |
+|---|---:|---:|---|
+| 3D Printed | Arm links (upper/lower) | 1 set | Print in PLA/PETG |
+| 3D Printed | Servo brackets / mounts | 1 set | For SG90 + MG996R |
+| 3D Printed | Stepper mount | 1 | For 28BYJ-48 |
+| 3D Printed | Base plate + lid | 1 set | Houses electronics |
+| 3D Printed | End-effector / claw parts | 1 set | See CAD folder |
+| 3D Printed | Cable guides / strain relief | as needed | Optional but helpful |
+| Electronics | Arduino Nano | 1 | Main controller |
+| Electronics | SG90 micro servo | 1 | Small joint / gripper |
+| Electronics | MG996R servo (or similar) | 1 | Higher torque joint |
+| Electronics | 28BYJ-48 5V stepper motor | 1 | Base axis |
+| Electronics | Stepper driver board (ULN2003) | 1 | Common driver for 28BYJ-48 |
+| Electronics | Power supply breakout boards | 1+ | As used in build |
+| Electronics | 9V batteries | 1+ | As used in build |
+| Electronics | Jumper wires | 1 set | Male/male + male/female |
+| Electronics | Breadboard / perfboard | 0–1 | Optional |
+| Hardware | M3 screws + nuts | assorted | Primary fasteners |
+| Hardware | Heat-set inserts | optional | Recommended for durability |
+| Hardware | Zip ties / Velcro | assorted | Cable management |
+| Tools | 3D printer | 1 | — |
+| Tools | Soldering iron + solder | 1 | — |
+| Tools | Hex drivers / screwdrivers | 1 set | — |
 
 ## Pictures
-https://cdn.hackclub.com/019e39be-f8bb-73e1-bd95-b19ef0ed9d60/img_7740.jpeg
-https://cdn.hackclub.com/019e39be-fbeb-781c-8327-cb57865b881d/img_7742.jpeg
+
+Build photos (preview):
+
+![Arm build photo 1](https://cdn.hackclub.com/019e39be-f8bb-73e1-bd95-b19ef0ed9d60/img_7740.jpeg)
+
+![Arm build photo 2](https://cdn.hackclub.com/019e39be-fbeb-781c-8327-cb57865b881d/img_7742.jpeg)
 
 ## CAD
-- TODO: link to CAD files in `cad/`
-- TODO: exported STLs in `cad/stl/`
+- CAD source files: `cad/`
+- Exported models: `cad/STL/`
 
 ## Electronics
-https://cdn.hackclub.com/019e39be-f5b6-799e-b6e0-9c5d24bdb92a/img_7741.jpeg
 
+Wiring / electronics photo (preview):
+
+![Electronics photo](https://cdn.hackclub.com/019e39be-f5b6-799e-b6e0-9c5d24bdb92a/img_7741.jpeg)
 
 ## Firmware / Control
-https://cdn.hackclub.com/019e39c8-6bf0-71b5-a9b2-512f90c365fa/img_7751.jpeg
-https://cdn.hackclub.com/019e39c8-6e88-7f0c-953f-dc29c5c4e641/img_7752.jpeg
+
+Firmware / control notes (preview):
+
+![Firmware photo 1](https://cdn.hackclub.com/019e39c8-6bf0-71b5-a9b2-512f90c365fa/img_7751.jpeg)
+
+![Firmware photo 2](https://cdn.hackclub.com/019e39c8-6e88-7f0c-953f-dc29c5c4e641/img_7752.jpeg)
