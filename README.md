@@ -1,6 +1,6 @@
 # 3D Cursor Robotic Arm
 
-A robotic arm controlled by a **barcode-scanned spherical dome** (“3D cursor”). By scanning different barcodes inside the dome with a barcode scanner, the arm moves to different points / presets.
+A robotic arm controlled by a **barcode-scanned spherical dome** (“3D cursor”). By scanning different barcodes inside the dome with a barcode scanner, the arm moves to different points / presets. That same ability to control a robotic arm in a enclosed 3d space can be used in other applications such as a 3D mouse for cad, or even helping older people with wrist shakiness to autonomously pick and control objects
 
 ## Demo
 - Video/demo: https://www.youtube.com/watch?v=vmy95ypN5ZI
