@@ -3,7 +3,7 @@
 A robotic arm which is controlled by a spherical dome covered with barcodes, by scanning different barcodes inside the dome with a barcode scanner the robotic arm can move to different points in a 3d spherical shape. That same ability to control a robotic arm in a enclosed 3d space can be used in other applications such as a 3D mouse for cad, or even helping older people with wrist shakiness to autonomously pick and control objects
 
 ## Demo
-- Video/demo: **TODO** (add link)
+- Video/demo: https://www.youtube.com/watch?v=vmy95ypN5ZI
 
 ## What this is
 A small, lightweight arm intended for quick iteration during a 4‑day sprint:
@@ -51,21 +51,17 @@ _This list is intentionally hackathon-friendly; exact specs can be filled in lat
 
 
 ## Pictures
-Add build photos and renders here.
-
-- TODO: `media/photos/`
-- TODO: finished arm photo
-- TODO: wiring close-ups
+https://cdn.hackclub.com/019e39be-f8bb-73e1-bd95-b19ef0ed9d60/img_7740.jpeg
+https://cdn.hackclub.com/019e39be-fbeb-781c-8327-cb57865b881d/img_7742.jpeg
 
 ## CAD
 - TODO: link to CAD files in `cad/`
 - TODO: exported STLs in `cad/stl/`
 
 ## Electronics
-- TODO: wiring diagram in `electronics/wiring-diagram.png`
-- TODO: pin map (Nano pins → servos/stepper driver)
-- TODO: power distribution notes (breakout boards + 9V batteries)
+https://cdn.hackclub.com/019e39be-f5b6-799e-b6e0-9c5d24bdb92a/img_7741.jpeg
+
 
 ## Firmware / Control
-- TODO: describe how joints are controlled (PWM for servos, STEP/DIR for stepper)
-- TODO: calibration procedure / limits
+https://cdn.hackclub.com/019e39c8-6bf0-71b5-a9b2-512f90c365fa/img_7751.jpeg
+https://cdn.hackclub.com/019e39c8-6e88-7f0c-953f-dc29c5c4e641/img_7752.jpeg
