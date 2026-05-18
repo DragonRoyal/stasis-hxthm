@@ -1,6 +1,6 @@
 # stasis-hxthm
 
-Hackathon-built **desktop robotic arm** prototype combining mostly 3D‑printed parts with hobby servos and a stepper motor, driven by an **Arduino Nano** for a fast, demoable build.
+A robotic arm which is controlled by a spherical dome covered with barcodes, by scanning different barcodes inside the dome with a barcode scanner the robotic arm can move to different points in a 3d spherical shape. That same ability to control a robotic arm in a enclosed 3d space can be used in other applications such as a 3D mouse for cad, or even helping older people with wrist shakiness to autonomously pick and control objects
 
 ## Demo
 - Video/demo: **TODO** (add link)
@@ -49,12 +49,6 @@ _This list is intentionally hackathon-friendly; exact specs can be filled in lat
 - Soldering iron + solder
 - Hex drivers / screwdrivers
 
-## Repository layout (suggested)
-- `cad/` — CAD source files + STLs
-- `electronics/` — schematics, wiring diagrams, pinouts
-- `firmware/` — Arduino sketches / control code
-- `software/` — host-side scripts (Python) / testing tools
-- `media/` — photos, renders, demo video assets
 
 ## Pictures
 Add build photos and renders here.
@@ -75,14 +69,3 @@ Add build photos and renders here.
 ## Firmware / Control
 - TODO: describe how joints are controlled (PWM for servos, STEP/DIR for stepper)
 - TODO: calibration procedure / limits
-
-## Hackathon scope (original)
-- Duration: 4 days
-- Focus: hardware + electronics prototyping
-- Goal: build a working demo by the end of Day 4
-
-## Suggested 4-day plan
-1. **Day 1**: Define problem, architecture, and parts list.
-2. **Day 2**: Assemble hardware and wire core electronics.
-3. **Day 3**: Integrate firmware/software and test subsystems.
-4. **Day 4**: Stabilize, demo prep, and final presentation.
