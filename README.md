@@ -48,9 +48,7 @@ Build photos (preview):
 ![Arm build photo 2](https://cdn.hackclub.com/019e39be-fbeb-781c-8327-cb57865b881d/img_7742.jpeg)
 
 ## CAD
-- CAD source files: `cad/`
-- Exported models: `cad/STL/`
-
+![CAD Photo](https://cdn.hackclub.com/019e39d6-7b43-7dc2-86f7-af6b988df20b/image.png)
 ## Electronics
 
 Wiring / electronics photo (preview):
